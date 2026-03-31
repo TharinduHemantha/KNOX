@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Knox.Domain</AssemblyName>
+    <RootNamespace>Knox.Domain</RootNamespace>
+  </PropertyGroup>
+</Project>

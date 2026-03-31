@@ -5,20 +5,20 @@ This guide explains the generated solution **folder by folder** and gives you th
 ## 1. Solution layout
 
 ```text
-SecureMultiTenantApiTemplate/
+Knox/
 ├── README.md
 ├── docs/
 │   └── solution-starter-guide.md
-├── SecureMultiTenantApiTemplate.sln
+├── Knox.sln
 ├── src/
-│   ├── SecureMultiTenant.Api/
-│   ├── SecureMultiTenant.Application/
-│   ├── SecureMultiTenant.Domain/
-│   └── SecureMultiTenant.Infrastructure/
+│   ├── Knox.Api/
+│   ├── Knox.Application/
+│   ├── Knox.Domain/
+│   └── Knox.Infrastructure/
 └── tests/
-    ├── SecureMultiTenant.UnitTests/
-    ├── SecureMultiTenant.IntegrationTests/
-    └── SecureMultiTenant.AuthorizationTests/
+    ├── Knox.UnitTests/
+    ├── Knox.IntegrationTests/
+    └── Knox.AuthorizationTests/
 ```
 
 ## 2. Architecture overview
@@ -152,7 +152,7 @@ Example command, run on your machine after installing the EF Core CLI tools:
 
 ```bash
 dotnet tool install --global dotnet-ef
-dotnet ef dbcontext scaffold "Server=.;Database=SecureMultiTenantDb;Trusted_Connection=True;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer   --project src/SecureMultiTenant.Infrastructure   --startup-project src/SecureMultiTenant.Api   --context AppDbContext   --output-dir Persistence/Scaffolded/Entities   --context-dir Persistence/Scaffolded   --use-database-names   --no-onconfiguring   --force
+dotnet ef dbcontext scaffold "Server=.;Database=KnoxDb;Trusted_Connection=True;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer   --project src/Knox.Infrastructure   --startup-project src/Knox.Api   --context AppDbContext   --output-dir Persistence/Scaffolded/Entities   --context-dir Persistence/Scaffolded   --use-database-names   --no-onconfiguring   --force
 ```
 
 ## 11. What to customize first

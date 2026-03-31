@@ -22,19 +22,19 @@ The safe pattern for this solution is:
 ## Files added or updated
 
 ### Updated
-- `src/SecureMultiTenant.Infrastructure/Persistence/AppDbContext.cs`
+- `src/Knox.Infrastructure/Persistence/AppDbContext.cs`
 
 ### Added
-- `src/SecureMultiTenant.Infrastructure/Persistence/AppDbContext.Partial.cs`
-- `src/SecureMultiTenant.Infrastructure/Persistence/DesignTime/AppDbContextFactory.cs`
-- `src/SecureMultiTenant.Infrastructure/Persistence/Entities/RefreshToken.cs`
-- `src/SecureMultiTenant.Infrastructure/Persistence/Entities/AuditLog.cs`
-- `src/SecureMultiTenant.Infrastructure/Persistence/Configurations/TenantConfiguration.cs`
-- `src/SecureMultiTenant.Infrastructure/Persistence/Configurations/ProjectConfiguration.cs`
-- `src/SecureMultiTenant.Infrastructure/Persistence/Configurations/ApplicationUserConfiguration.cs`
-- `src/SecureMultiTenant.Infrastructure/Persistence/Configurations/ApplicationRoleConfiguration.cs`
-- `src/SecureMultiTenant.Infrastructure/Persistence/Configurations/RefreshTokenConfiguration.cs`
-- `src/SecureMultiTenant.Infrastructure/Persistence/Configurations/AuditLogConfiguration.cs`
+- `src/Knox.Infrastructure/Persistence/AppDbContext.Partial.cs`
+- `src/Knox.Infrastructure/Persistence/DesignTime/AppDbContextFactory.cs`
+- `src/Knox.Infrastructure/Persistence/Entities/RefreshToken.cs`
+- `src/Knox.Infrastructure/Persistence/Entities/AuditLog.cs`
+- `src/Knox.Infrastructure/Persistence/Configurations/TenantConfiguration.cs`
+- `src/Knox.Infrastructure/Persistence/Configurations/ProjectConfiguration.cs`
+- `src/Knox.Infrastructure/Persistence/Configurations/ApplicationUserConfiguration.cs`
+- `src/Knox.Infrastructure/Persistence/Configurations/ApplicationRoleConfiguration.cs`
+- `src/Knox.Infrastructure/Persistence/Configurations/RefreshTokenConfiguration.cs`
+- `src/Knox.Infrastructure/Persistence/Configurations/AuditLogConfiguration.cs`
 
 ## Resulting folder structure
 
@@ -80,7 +80,7 @@ Example CLI flow:
 ```bash
 dotnet tool install --global dotnet-ef
 
-dotnet ef dbcontext scaffold   "Server=YOUR_SQL_SERVER;Database=SecureMultiTenantDb;Trusted_Connection=True;TrustServerCertificate=True;"   Microsoft.EntityFrameworkCore.SqlServer   --project src/SecureMultiTenant.Infrastructure   --startup-project src/SecureMultiTenant.Api   --context ScaffoldComparisonDbContext   --context-dir Persistence/Scaffolding   --output-dir Persistence/Scaffolding/Entities   --namespace SecureMultiTenant.Infrastructure.Persistence.Scaffolding.Entities   --context-namespace SecureMultiTenant.Infrastructure.Persistence.Scaffolding   --table Tenants   --table Projects   --table RefreshTokens   --table AuditLogs   --data-annotations   --use-database-names   --force
+dotnet ef dbcontext scaffold   "Server=YOUR_SQL_SERVER;Database=KnoxDb;Trusted_Connection=True;TrustServerCertificate=True;"   Microsoft.EntityFrameworkCore.SqlServer   --project src/Knox.Infrastructure   --startup-project src/Knox.Api   --context ScaffoldComparisonDbContext   --context-dir Persistence/Scaffolding   --output-dir Persistence/Scaffolding/Entities   --namespace Knox.Infrastructure.Persistence.Scaffolding.Entities   --context-namespace Knox.Infrastructure.Persistence.Scaffolding   --table Tenants   --table Projects   --table RefreshTokens   --table AuditLogs   --data-annotations   --use-database-names   --force
 ```
 ```
 
@@ -142,7 +142,7 @@ dotnet build
 
 Then verify:
 - `AppDbContext` sees `Tenants`, `Projects`, `RefreshTokens`, and `AuditLogs`
-- `dotnet ef dbcontext info --project src/SecureMultiTenant.Infrastructure --startup-project src/SecureMultiTenant.Api`
+- `dotnet ef dbcontext info --project src/Knox.Infrastructure --startup-project src/Knox.Api`
 - no duplicate entity mappings exist for Identity tables
 - table names still resolve to `Users` and `Roles`
 

@@ -1,4 +1,4 @@
-# Secure Multi-Tenant .NET 10 API Template
+# Knox - Secure Multi-Tenant .NET 10 API Template
 
 Enterprise-grade starter template for a **REST API** using:
 
@@ -18,13 +18,13 @@ Enterprise-grade starter template for a **REST API** using:
 
 ## Projects
 
-- `src/SecureMultiTenant.Api`
-- `src/SecureMultiTenant.Application`
-- `src/SecureMultiTenant.Domain`
-- `src/SecureMultiTenant.Infrastructure`
-- `tests/SecureMultiTenant.UnitTests`
-- `tests/SecureMultiTenant.IntegrationTests`
-- `tests/SecureMultiTenant.AuthorizationTests`
+- `src/Knox.Api`
+- `src/Knox.Application`
+- `src/Knox.Domain`
+- `src/Knox.Infrastructure`
+- `tests/Knox.UnitTests`
+- `tests/Knox.IntegrationTests`
+- `tests/Knox.AuthorizationTests`
 
 ## Important
 
