@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SecureMultiTenant.Infrastructure.Identity;
 using SecureMultiTenant.Infrastructure.Persistence.Entities;
 
 namespace SecureMultiTenant.Infrastructure.Persistence.Configurations;

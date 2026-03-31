@@ -1,4 +1,5 @@
 using SecureMultiTenant.Application.Abstractions.Cqrs;
+using SecureMultiTenant.Application.Features.Auth.Commands.PasswordLogin;
 
 namespace SecureMultiTenant.Application.Features.Auth.Commands.EntraExchange;
 

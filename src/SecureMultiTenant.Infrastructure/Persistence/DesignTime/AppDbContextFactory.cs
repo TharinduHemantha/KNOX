@@ -18,7 +18,7 @@ public sealed class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbConte
             .Build();
 
         var connectionString = configuration.GetConnectionString("DefaultConnection")
-            ?? "Server=(localdb)\MSSQLLocalDB;Database=SecureMultiTenantDb;Trusted_Connection=True;TrustServerCertificate=True;";
+            ?? @"Server=(localdb)\MSSQLLocalDB;Database=SecureMultiTenantDb;Trusted_Connection=True;TrustServerCertificate=True;";
 
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
         optionsBuilder.UseSqlServer(connectionString);

@@ -2,6 +2,7 @@ using System.Text.Json;
 using SecureMultiTenant.Application.Abstractions.Cqrs;
 using SecureMultiTenant.Application.Abstractions.Security;
 using SecureMultiTenant.Application.Common.Exceptions;
+using SecureMultiTenant.Application.Features.Auth.Commands.PasswordLogin;
 
 namespace SecureMultiTenant.Application.Features.Auth.Commands.EntraExchange;
 

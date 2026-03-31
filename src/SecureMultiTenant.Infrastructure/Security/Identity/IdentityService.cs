@@ -173,7 +173,7 @@ public sealed class IdentityService(
         var claims = await userManager.GetClaimsAsync(user);
         var permissions = claims.Where(x => x.Type == "permission").Select(x => x.Value).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
 
-        return new TokenRefreshIdentityResult(true, null, null, user.Id.ToString(), user.Email, tenantId, roles, permissions);
+        return new TokenRefreshIdentityResult(true, null, null, user.Id.ToString(), user.Email, tenantId, roles.ToArray(), permissions);
     }
 
     private async Task<LoginResult> BuildLoginResultAsync(ApplicationUser user)
@@ -199,7 +199,7 @@ public sealed class IdentityService(
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToArray();
 
-        return new LoginResult(true, null, null, user.Id.ToString(), user.Email, roles, permissions);
+        return new LoginResult(true, null, null, user.Id.ToString(), user.Email, roles.ToArray(), permissions);
     }
 
     private async Task<ApplicationRole?> ResolveRoleAsync(string roleName, Guid tenantId, CancellationToken cancellationToken)
