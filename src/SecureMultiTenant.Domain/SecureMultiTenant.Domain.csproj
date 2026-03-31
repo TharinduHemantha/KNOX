@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>SecureMultiTenant.Domain</AssemblyName>
+    <RootNamespace>SecureMultiTenant.Domain</RootNamespace>
+  </PropertyGroup>
+</Project>
