@@ -23,8 +23,11 @@ internal sealed class RefreshTokenConfiguration : IEntityTypeConfiguration<Refre
         builder.Property(x => x.ReplacedByTokenHash)
             .HasMaxLength(512);
 
-        builder.Property(x => x.RevokedBy)
+        builder.Property(x => x.ReasonRevoked)
             .HasMaxLength(256);
+
+        builder.Property(x => x.RevokedByIp)
+            .HasMaxLength(64);
 
         builder.Property(x => x.CreatedByIp)
             .HasMaxLength(64);

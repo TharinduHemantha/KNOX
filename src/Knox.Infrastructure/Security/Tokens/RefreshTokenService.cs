@@ -66,7 +66,7 @@ public sealed class RefreshTokenService(AppDbContext dbContext) : IRefreshTokenS
         }
 
         current.RevokedAtUtc = DateTimeOffset.UtcNow;
-        current.RevokedBy = request.ReplacedBy;
+        current.ReasonRevoked = "Rotated";
         current.ReplacedByTokenHash = request.NewRefreshTokenHash;
 
         dbContext.RefreshTokens.Add(new RefreshToken
@@ -94,8 +94,8 @@ public sealed class RefreshTokenService(AppDbContext dbContext) : IRefreshTokenS
         if (!current.RevokedAtUtc.HasValue)
         {
             current.RevokedAtUtc = DateTimeOffset.UtcNow;
-            current.RevokedBy = request.RevokedBy;
-            current.CreatedByIp = request.RevokedByIp ?? current.CreatedByIp;
+            current.ReasonRevoked = request.RevokedBy;
+            current.RevokedByIp = request.RevokedByIp ?? current.CreatedByIp;
             await dbContext.SaveChangesAsync(cancellationToken);
         }
     }
