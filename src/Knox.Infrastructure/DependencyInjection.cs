@@ -7,6 +7,7 @@ using Knox.Application.Abstractions.ReadModels;
 using Knox.Application.Abstractions.Security;
 using Knox.Domain.Repositories;
 using Knox.Infrastructure.Identity;
+using Knox.Infrastructure.Logging;
 using Knox.Infrastructure.Persistence;
 using Knox.Infrastructure.Persistence.Repositories;
 using Knox.Infrastructure.ReadModels;
@@ -54,6 +55,7 @@ public static class DependencyInjection
         services.AddScoped<IEntraInvitationService, EntraInvitationService>();
         services.AddScoped<IIdentityService, IdentityService>();
         services.AddScoped<IAuditService, AuditService>();
+        services.AddAuditLogging(configuration);
 
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, CurrentUserService>();

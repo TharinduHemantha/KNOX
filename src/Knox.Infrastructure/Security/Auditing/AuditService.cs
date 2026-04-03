@@ -1,12 +1,10 @@
 using Microsoft.AspNetCore.Http;
 using Knox.Application.Abstractions.Security;
-using Knox.Infrastructure.Persistence;
-using Knox.Infrastructure.Persistence.Entities;
 
 namespace Knox.Infrastructure.Security.Auditing;
 
 public sealed class AuditService(
-    AppDbContext dbContext,
+    IAuditLogWriter auditLogWriter,
     IHttpContextAccessor httpContextAccessor,
     ICurrentUserService currentUserService,
     ITenantContext tenantContext) : IAuditService
@@ -19,20 +17,19 @@ public sealed class AuditService(
             auditUserId = parsedUserId;
         }
 
-        dbContext.AuditLogs.Add(new AuditLog
-        {
-            TenantId = auditEvent.TenantId ?? tenantContext.TenantId,
-            UserId = auditUserId,
-            EventType = auditEvent.EventType,
-            EntityName = auditEvent.EntityName,
-            EntityId = auditEvent.EntityId,
-            CorrelationId = auditEvent.CorrelationId ?? httpContextAccessor.HttpContext?.Items["CorrelationId"]?.ToString(),
-            IpAddress = auditEvent.IpAddress ?? httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString(),
-            UserAgent = auditEvent.UserAgent ?? httpContextAccessor.HttpContext?.Request.Headers.UserAgent.ToString(),
-            DetailsJson = auditEvent.DetailsJson,
-            CreatedAtUtc = DateTimeOffset.UtcNow
-        });
+        var entry = new AuditLogEntry(
+            TenantId: auditEvent.TenantId ?? tenantContext.TenantId,
+            UserId: auditUserId,
+            EventType: auditEvent.EventType,
+            EntityName: auditEvent.EntityName,
+            EntityId: auditEvent.EntityId,
+            CorrelationId: auditEvent.CorrelationId ?? httpContextAccessor.HttpContext?.Items["CorrelationId"]?.ToString(),
+            IpAddress: auditEvent.IpAddress ?? httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString(),
+            UserAgent: auditEvent.UserAgent ?? httpContextAccessor.HttpContext?.Request.Headers.UserAgent.ToString(),
+            DetailsJson: auditEvent.DetailsJson,
+            CreatedAtUtc: DateTimeOffset.UtcNow
+        );
 
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await auditLogWriter.WriteAsync(entry, cancellationToken);
     }
 }

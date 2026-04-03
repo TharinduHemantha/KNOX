@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Knox.Application.Abstractions.Cqrs;
 using Knox.Application.Abstractions.Security;
 using Knox.Application.Features.Auth.Common;
@@ -13,7 +14,8 @@ public sealed record PasswordLoginCommand(
 public sealed class PasswordLoginCommandHandler(
     IIdentityService identityService,
     ITokenService tokenService,
-    IRefreshTokenService refreshTokenService) 
+    IRefreshTokenService refreshTokenService,
+    IAuditService auditService) 
     : ICommandHandler<PasswordLoginCommand, LoginResponse>
 {
     public async Task<LoginResponse> HandleAsync(PasswordLoginCommand command, CancellationToken cancellationToken = default)
@@ -26,6 +28,19 @@ public sealed class PasswordLoginCommandHandler(
 
         if (!loginResult.Succeeded || loginResult.UserId is null)
         {
+            await auditService.WriteSecurityEventAsync(
+                new AuditSecurityEvent(
+                    EventType: "Auth.PasswordLogin.Failed",
+                    EntityName: "User",
+                    EntityId: null,
+                    DetailsJson: JsonSerializer.Serialize(new { Email = command.Email, Reason = loginResult.ErrorCode }),
+                    TenantId: command.TenantId,
+                    UserId: null,
+                    CorrelationId: null,
+                    IpAddress: null,
+                    UserAgent: null),
+                cancellationToken);
+
             throw new UnauthorizedAccessException(loginResult.ErrorDescription ?? "Invalid credentials.");
         }
 
@@ -46,6 +61,19 @@ public sealed class PasswordLoginCommandHandler(
                 tokenResult.RefreshTokenHash,
                 tokenResult.RefreshTokenExpiresAtUtc,
                 null),
+            cancellationToken);
+
+        await auditService.WriteSecurityEventAsync(
+            new AuditSecurityEvent(
+                EventType: "Auth.PasswordLogin.Success",
+                EntityName: "User",
+                EntityId: loginResult.UserId,
+                DetailsJson: JsonSerializer.Serialize(new { Email = command.Email }),
+                TenantId: command.TenantId,
+                UserId: Guid.Parse(loginResult.UserId),
+                CorrelationId: null,
+                IpAddress: null,
+                UserAgent: null),
             cancellationToken);
 
         return new LoginResponse(

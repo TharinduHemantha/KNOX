@@ -8,7 +8,9 @@ public sealed record RevokeRefreshTokenCommand(
     string RefreshToken,
     string? RevokedBy = null) : ICommand<Unit>;
 
-public sealed class RevokeRefreshTokenCommandHandler(IRefreshTokenService refreshTokenService) 
+public sealed class RevokeRefreshTokenCommandHandler(
+    IRefreshTokenService refreshTokenService,
+    IAuditService auditService) 
     : ICommandHandler<RevokeRefreshTokenCommand, Unit>
 {
     public async Task<Unit> HandleAsync(RevokeRefreshTokenCommand command, CancellationToken cancellationToken = default)
@@ -19,6 +21,19 @@ public sealed class RevokeRefreshTokenCommandHandler(IRefreshTokenService refres
                 command.TenantId,
                 command.RevokedBy,
                 null),
+            cancellationToken);
+
+        await auditService.WriteSecurityEventAsync(
+            new AuditSecurityEvent(
+                EventType: "Auth.RefreshToken.Revoked",
+                EntityName: "RefreshToken",
+                EntityId: null,
+                DetailsJson: null,
+                TenantId: command.TenantId,
+                UserId: null,
+                CorrelationId: null,
+                IpAddress: null,
+                UserAgent: null),
             cancellationToken);
 
         return default;
